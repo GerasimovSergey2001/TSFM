@@ -1,0 +1,39 @@
+[project]
+name = "ts"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    # Core scientific stack
+    "numpy>=2.0",
+    "scipy",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "plotly",
+    "statsmodels",
+    "scikit-learn>=1.6.1",
+    "torch",
+    # Notebooks & visualization
+    "ipywidgets>=8.1.7",
+    "ipykernel",
+    "nbformat>=5.10.4",
+    # Progress bars & misc
+    "tqdm>=4.67.1",
+    "pip",
+    "joblib-progress>=1.0.6",
+    "path>=17.1.1",
+    # Time Series World Models
+    "tslearn>=0.6.3",
+    "tirex-ts>=1.4.0",
+    "mantis-tsfm>=1.0.0",
+    "aeon>=1.3.0",
+    "ts2vec>=0.1",
+
+    "hydra-core",
+    "black",
+    "isort",
+    "pre-commit"
+]
+
