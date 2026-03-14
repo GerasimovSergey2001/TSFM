@@ -1,0 +1,2 @@
+_target_: src.trainer.BaselineTrainer
+_partial_: True

@@ -1,0 +1,24 @@
+defaults:
+  - model: mantis_v2
+  - train_wrapper: mantis_trainer
+  - writer: wandb
+  - _self_
+optimizer:
+  _target_: torch.optim.AdamW
+  _partial_: True
+  lr: 1e-4
+  weight_decay: 1e-4
+
+trainer:
+  num_epochs: 500
+  fine_tuning_type: "head"
+  path: "paris-noah/MantisV2"
+  checkpoint_name: "mantisv2"
+  checkpoints: "checkpoints"
+  results: "results"
+  resume_from: null # null or path to the checkpoint dir with *.pth and config.yaml
+  device: auto # device name or "auto"
+  override: True # if True, will override the previous run with the same name
+  save_period: 5 # checkpoint each save_period epochs in addition to the best epoch
+  save_dir: "saved"
+  seed: 1
