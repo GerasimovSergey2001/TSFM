@@ -57,12 +57,14 @@ def main(config):
 
     logger.info(f"Model: {config.model._target_}")
 
-    init_optimizer = lambda params: instantiate(config.optimizer)(params=params)
+    init_optimizer = None
+    if config.optimizer is not None:
+        init_optimizer = instantiate(config.optimizer)
     
     # Initialize Trainer
     trainer = instantiate(config.train_wrapper)(
         network=model.from_pretrained(config.trainer.path),
-        device='cpu'
+        device=device
     )
 
     trainer_config = config.trainer
@@ -77,8 +79,11 @@ def main(config):
     checpkpoint_path = trainer_config.checkpoint_name+'_'+ trainer_config.fine_tuning_type+'_'+str(trainer_config.num_epochs)
     
     # Model Saving
-    torch.save(trainer.fine_tuned_model.state_dict(), ckpt_dir / checpkpoint_path)
-    logger.info(f"Weights saved to {ckpt_dir.absolute()}")
+    try:
+        torch.save(trainer.fine_tuned_model.state_dict(), ckpt_dir / checpkpoint_path)
+        logger.info(f"Weights saved to {ckpt_dir.absolute()}")
+    except:
+        logger.info(f"Unable to save the model")
 
     # Assessment
     y_pred_train = trainer.predict(X_train)

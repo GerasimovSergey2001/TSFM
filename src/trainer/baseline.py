@@ -1,24 +1,14 @@
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
-from mantis.trainer import MantisTrainer
+from aeon.classification.hybrid import RISTClassifier
 
 class BaselineTrainer:
-    def __init__(self, network, device="cpu"):
-        self.model_trainer = MantisTrainer(network=network, device=device)
-        self.fine_tuned_model = self.model_trainer.network
+    def __init__(self, network=RISTClassifier(), device="cpu"):
+        self.fine_tuned_model = network
         self.is_fitted = False
-        self.cls = LogisticRegression(C=0.1, max_iter=1000)
-        self.scaler = StandardScaler()
-
     
     def fit(self, X, y, *args, **kwargs):
-        Z = self.model_trainer.transform(X)
-        Z = self.scaler.fit_transform(Z)
-        self.cls.fit(Z, y)
+        self.fine_tuned_model.fit(X.numpy().astype('float64'), y.numpy())
         self.is_fitted = True
         return self
 
     def predict(self, X):
-        Z = self.model_trainer.transform(X)
-        Z = self.scaler.transform(Z)
-        return self.cls.predict(Z)
+        return self.fine_tuned_model.predict(X.numpy().astype('float64'))
